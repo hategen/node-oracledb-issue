@@ -1,0 +1,54 @@
+version: '3.6'
+services:
+  portainer:
+    image: portainer/portainer
+    networks:
+      - default_network
+    ports:
+      - "9000:9000"
+    command: --admin-password "$$2y$$05$$8fRQHk5mublQVhYe3tpIOOTweH5d6YqrvjV/j7mxSx2O/GaHZ9Uzq"
+    volumes:
+      - type: volume
+        source: portainer_data
+        target: /data
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+
+  oracle:
+    image: test/oracle_oracle_bug:latest
+    build:
+      context: .
+      dockerfile: ./oracle.dockerfile
+    volumes:
+      - ./:/host
+    working_dir: /host
+    networks:
+      - default_network
+    ports:
+      - "49161:1521"
+
+  node:
+    image: test/node_oracle_bug:latest
+    build:
+      context: .
+      dockerfile: ./node.dockerfile
+    networks:
+      - default_network
+    working_dir: /host
+    volumes:
+      - ./:/host
+      - node_modules:/host/node_modules
+    ports:
+      - "3000:3000"
+      - "7777:7777"
+    command: ["npm", "start"]
+
+networks:
+  default_network:
+    driver: bridge
+
+volumes:
+  node_modules:
+  portainer_data:
+  node_modules:
