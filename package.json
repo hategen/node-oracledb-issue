@@ -4,7 +4,7 @@
   "description": "Reproduces node-oracledb issue",
   "main": "index.js",
   "scripts": {
-    "start": "npm install && node --inspect=0.0.0.0:7777 index.js",
+    "start": "npm install && node --max-old-space-size=512 index.js",
     "cannon": "autocannon localhost:3000/query  -c 10 -t 100"
   },
   "author": "",

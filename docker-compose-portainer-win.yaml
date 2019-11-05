@@ -1,0 +1,23 @@
+version: '3.6'
+services:
+  portainer:
+    image: portainer/portainer
+    networks:
+      - default_network
+    ports:
+      - "9000:9000"
+    command: --admin-password "$$2y$$05$$8fRQHk5mublQVhYe3tpIOOTweH5d6YqrvjV/j7mxSx2O/GaHZ9Uzq"
+    volumes:
+      - type: volume
+        source: portainer_data
+        target: /data
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+
+networks:
+  default_network:
+    driver: bridge
+
+volumes:
+  portainer_data:
