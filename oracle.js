@@ -23,7 +23,7 @@ async function initPool() {
 async function query(params) {
   let connection;
   try {
-    console.log(`PARAMS: ${params}`);
+  //  console.log(`PARAMS: ${params}`);
     connection = await pool.getConnection();
     const result = await connection.execute(
       "SELECT * FROM system.TESTTABLE WHERE COLUMN4 BETWEEN :q1 AND :q2",
@@ -36,12 +36,12 @@ async function query(params) {
     const streamConsumer = new Promise((resolve, reject) => {
       const response = [];
       stream.on("data", function(data) {
-        console.log(`DATA: ${data}`);
+        //console.log(`DATA: ${data}`);
         return response.push(data);
       });
 
       stream.on("end", function() {
-        console.log(`TOTAL ROWS: ${response.length}`);
+        //  console.log(`TOTAL ROWS: ${response.length}`);
         return resolve(response);
       });
       stream.on("error", function(error) {
@@ -55,7 +55,7 @@ async function query(params) {
   } finally {
     if (connection) {
       try {
-        console.log(`CLOSE`);
+      //  console.log(`CLOSE`);
         await connection.close();
       } catch (err) {
         console.error(err);
